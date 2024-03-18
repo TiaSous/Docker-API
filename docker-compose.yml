@@ -1,0 +1,36 @@
+version: '3.1'
+
+services: 
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    networks:
+      - api
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./DB:/docker-entrypoint-initdb.d # va crée un db et une table
+    healthcheck: # c'est pour savoir quand la db est accessible
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      
+      retries: 50
+
+  app:
+    build:
+      context: .\
+      dockerfile: dockerfile
+    restart: always
+    networks:
+      - api
+    depends_on: 
+      mysql:
+        condition: service_healthy # Attendre que le service dbmysql soit accessible
+    ports:
+      - "3000:3000"
+
+networks:
+  api:
+    driver: bridge
