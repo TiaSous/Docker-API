@@ -7,7 +7,7 @@
 </br>
 Il n'y a plus besoin de mettre le port, il suffit simplement de mettre comme adresse ip mysql (nom du container).
 </br>
-Maintenant, ouvrez un cmd au niveau du docker-compose et faîtes la commande.
+Maintenant, ouvrez docker puis un cmd au niveau du docker-compose et faîtes la commande.
 </br>
 </br>
 
